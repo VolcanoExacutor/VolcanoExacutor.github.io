@@ -14,18 +14,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌋</text></svg>">
-    <script>
-	  window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}} ,has:function(t,r){return"q"===r}}) }();
-	  window.op('init', {
-	    apiUrl: 'https://opel.volcano.wtf/api',
-		clientId: '91c43808-33e0-4088-8c91-9d3d3f8c40f7',
-		trackScreenViews: true,
-	  });
-	</script>
-	<script src="https://key.volcano.wtf/op1.js" defer async></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
 
     <script>
+        function downloadCO() {
+            window.location.href = "https://github.com/VolcanoExacutor/VolcanoExacutor.github.io/releases/download/Release/Volcano.V8.7.zip";
+        }
+
         tailwind.config = {
             theme: {
                 extend: {
@@ -80,13 +74,17 @@
     <main class="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
         <div class="text-center space-y-8">
             <h1 class="text-6xl sm:text-7xl md:text-8xl animate-fade-in">🌋</h1>
+
             <h1 class="text-6xl sm:text-7xl md:text-8xl font-bold text-white animate-fade-in">
                 Volcano
             </h1>
+
             <p class="text-xl sm:text-2xl text-gray-300 animate-fade-in-delay">
                 Get the job done
             </p>
+
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
+
                 <button onclick="downloadCO()" class="button-glow px-8 py-3 rounded-lg bg-primary text-white font-medium flex items-center justify-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -104,83 +102,6 @@
         </div>
     </main>
 
-    <!-- Captcha Popup -->
-    <div id="captcha-popup" class="fixed inset-0 popup-overlay z-50 hidden flex items-center justify-center p-4">
-        <div class="popup-content animate-slide-in relative max-w-md w-full p-8 text-center">
-            <button onclick="hideCaptchaPopup()" class="close-btn absolute top-4 right-4 text-white text-2xl font-bold">
-                ×
-            </button>
-            
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold text-white mb-2">Security Check</h2>
-                <p class="text-gray-200">Please complete the verification to download Volcano</p>
-            </div>
-
-            <div id="turnstile-container" class="mb-6"></div>
-
-            <div id="download-status" class="hidden">
-                <div class="flex items-center justify-center gap-2 text-white">
-                    <div class="loading-spinner"></div>
-                    <span>Preparing download...</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let turnstileWidgetId = null;
-        let captchaToken = null;
-
-        function downloadCO() {
-            showCaptchaPopup();
-        }
-
-        function showCaptchaPopup() {
-            const popup = document.getElementById('captcha-popup');
-            popup.classList.remove('hidden');
-
-            if (!turnstileWidgetId) {
-                turnstile.ready(function () {
-                    turnstileWidgetId = turnstile.render("#turnstile-container", {
-                        sitekey: "0x4AAAAAABkg0a1Iv2VPCuB7",
-                        callback: function (token) {
-                            captchaToken = token;
-                            onCaptchaComplete();
-                        },
-                        "error-callback": function() {
-                            alert("Captcha verification failed. Please try again.");
-                        }
-                    });
-                });
-            } else {
-                turnstile.reset(turnstileWidgetId);
-            }
-        }
-
-        function hideCaptchaPopup() {
-            document.getElementById('captcha-popup').classList.add('hidden');
-            document.getElementById('download-status').classList.add('hidden');
-        }
-
-        async function onCaptchaComplete() {
-            document.getElementById('download-status').classList.remove('hidden');
-
-            // Delay for better UX
-            setTimeout(() => {
-                window.location.href = "https://github.com/VolcanoExacutor/VolcanoExacutor.github.io/releases/download/Release/Volcano.V8.7.zip";
-                hideCaptchaPopup();
-            }, 1200);
-        }
-
-        document.getElementById('captcha-popup').addEventListener('click', function(e) {
-            if (e.target === this) hideCaptchaPopup();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') hideCaptchaPopup();
-        });
-    </script>
-
     <style>
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -190,74 +111,11 @@
         .animate-fade-in {
             animation: fadeIn 0.8s ease-out forwards;
         }
-
         .animate-fade-in-delay {
             animation: fadeIn 0.8s ease-out 0.2s forwards;
             opacity: 0;
         }
-
-        .animate-slide-in {
-            animation: slideIn 0.3s ease-out forwards;
-        }
-
-        .button-glow {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .button-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-        }
-
-        .bg-dark {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .text-primary {
-            color: #667eea;
-        }
-
-        .bg-primary {
-            background-color: #667eea;
-        }
-
-        .popup-overlay {
-            backdrop-filter: blur(10px);
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        .popup-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        .close-btn {
-            transition: all 0.2s ease;
-        }
-
-        .close-btn:hover {
-            transform: scale(1.1);
-            color: #ff6b6b;
-        }
-
-        .loading-spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffffff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
-
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js"></script>
 
 </body>
 </html>
